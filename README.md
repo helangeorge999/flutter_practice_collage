@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # flutter_for_college
 
 A new Flutter project.
@@ -14,3 +15,6 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+=======
+# flutter_practice_collage
+>>>>>>> a040c8f5ab513b3ade9896dcc04d1001ab1fcc23
