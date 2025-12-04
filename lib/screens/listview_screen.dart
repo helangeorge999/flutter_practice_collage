@@ -1,5 +1,19 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_for_college/models/student_model.dart';
 import 'output_screen.dart';
+
+final _random = Random();
+
+Color getRandomColor() {
+  return Color.fromARGB(
+    255, // Alpha value (fully opaque)
+    _random.nextInt(256), // Red value (0-255)
+    _random.nextInt(256), // Green value (0-255)
+    _random.nextInt(256), // Blue value (0-255)
+  );
+}
 
 class ListViewScreen extends StatefulWidget {
   const ListViewScreen({super.key});
@@ -14,6 +28,9 @@ class _ListViewScreenState extends State<ListViewScreen> {
   final _lnameController = TextEditingController();
 
   String? _selectedCity;
+
+  //to store the data
+  final List<StudentModel> _lstStudents = [];
 
   // To display list of cities in dropdown
   final List<DropdownMenuItem<String>> _cities = [
@@ -113,6 +130,15 @@ class _ListViewScreenState extends State<ListViewScreen> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           //Add student code goes here
+                          StudentModel student = StudentModel(
+                            fname: _fnameController.text,
+                            lname: _lnameController.text,
+                            city: _selectedCity!,
+                          );
+
+                          setState(() {
+                            _lstStudents.add(student);
+                          });
                         }
                       },
                       icon: const Icon(Icons.add),
@@ -153,11 +179,44 @@ class _ListViewScreenState extends State<ListViewScreen> {
                 ],
               ),
               const SizedBox(height: 40),
-              Text(
-                "No Data",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 24, color: Colors.grey.shade400),
-              ),
+              if (_lstStudents.isNotEmpty) ...{
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: _lstStudents.length,
+                  itemBuilder: (context, index) {
+                    final student = _lstStudents[index];
+                    return Card(
+                      margin: const EdgeInsets.symmetric(vertical: 8),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: getRandomColor(),
+                          child: Text(student.fname[0].toUpperCase()),
+                        ),
+                        title: Text('${student.fname} ${student.lname}'),
+                        subtitle: Text(student.city),
+                        trailing: Wrap(
+                          spacing: 12,
+                          children: [
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(Icons.edit, color: Colors.blue),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _lstStudents.removeAt(index);
+                                });
+                              },
+                              icon: const Icon(Icons.delete, color: Colors.red),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              },
             ],
           ),
         ),
