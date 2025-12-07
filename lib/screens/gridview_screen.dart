@@ -10,8 +10,16 @@ class GridViewScreen extends StatelessWidget {
         title: const Text('GridView'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-      body: const Center(
-        child: Text('gridview', style: TextStyle(fontSize: 24)),
+      body: GridView.count(
+        crossAxisCount: 3,
+        padding: const EdgeInsets.all(20.0),
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        children: [
+          for (int i = 0; i < 9; i++) ...{
+            ElevatedButton(onPressed: () {}, child: Text('Button ${i + 1}')),
+          },
+        ],
       ),
     );
   }
