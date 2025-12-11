@@ -274,14 +274,50 @@ import 'package:flutter_for_college/screens/bottom_screen/cart_screen.dart';
 import 'package:flutter_for_college/screens/bottom_screen/home_screen.dart';
 import 'package:flutter_for_college/screens/bottom_screen/profile_screen.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
+
+  @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _screens = [
+    const HomeScreen(),
+    const CartScreen(),
+    const ProfileScreen(),
+    const AboutScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Dashboard'), centerTitle: true),
+      backgroundColor: Colors.grey[100],
+
+      appBar: AppBar(
+        title: const Text('Dashboard'),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 105, 191, 233),
+      ),
+
+      body: _screens[_selectedIndex],
+
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.black87,
+
+        selectedItemColor: Colors.orange,
+        unselectedItemColor: Colors.white70,
+
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
